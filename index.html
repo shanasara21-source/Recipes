@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>FlavorFind | Recipe Finder</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="navbar">
+      <h1 class="logo">FlavorFind</h1>
+
+      <ul class="nav-links">
+        <li><a href="#recipes">Recipes</a></li>
+        <li><a href="#favorites">Favorites</a></li>
+        <li><a href="#grocery-list">Grocery List</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Find Your Next Favorite Recipe</h2>
+
+        <p>
+          Search recipes, save your favorites, and build a grocery list in one place.
+        </p>
+
+        <div class="search-area">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search for chicken, pasta, salad..."
+          />
+
+          <button id="searchBtn">Search</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters">
+      <h2>Filter Recipes</h2>
+
+      <div class="filter-controls">
+
+        <select id="mealTypeFilter">
+          <option value="">Meal Type</option>
+        </select>
+
+        <select id="cuisineFilter">
+          <option value="">Cuisine</option>
+        </select>
+
+        <select id="sortFilter">
+          <option value="">Sort By</option>
+          <option value="az">Name A-Z</option>
+          <option value="za">Name Z-A</option>
+          <option value="quickest">Quickest</option>
+          <option value="highest-rated">Highest Rated</option>
+        </select>
+
+      </div>
+    </section>
+
+    <!-- Recipes Section -->
+    <section id="recipes" class="recipes-section">
+      <h2>Recipes</h2>
+
+      <div id="recipeContainer" class="recipe-grid">
+        <p class="empty-message">Loading recipes...</p>
+      </div>
+    </section>
+
+    <!-- Favorites Section -->
+    <section id="favorites" class="favorites-section">
+      <h2>Favorite Recipes</h2>
+
+      <div id="favoritesContainer" class="favorites-grid">
+        <p>No favorite recipes saved yet.</p>
+      </div>
+    </section>
+
+    <!-- Grocery List Section -->
+    <section id="grocery-list" class="grocery-section">
+      <h2>Grocery List</h2>
+
+      <ul id="groceryList">
+        <li>No ingredients added yet.</li>
+      </ul>
+
+      <button id="clearGroceryBtn">Clear Grocery List</button>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>&copy; 2026 FlavorFind. Built by Shana Neal.</p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

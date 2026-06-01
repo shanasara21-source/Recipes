@@ -1,0 +1,433 @@
+/* ===============================
+   FlavorFind Recipe App Styling
+   =============================== */
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Page setup */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff8f0;
+  color: #2f2f2f;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.site-header {
+  background-color: #ff7043;
+  color: white;
+  padding: 18px 40px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* Main content */
+main {
+  flex: 1;
+}
+
+/* Hero section */
+.hero {
+  background: linear-gradient(
+      rgba(255, 112, 67, 0.85),
+      rgba(255, 152, 0, 0.85)
+    ),
+    url("https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=1400&q=80");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.hero-content {
+  max-width: 750px;
+}
+
+.hero h2 {
+  font-size: 44px;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+/* Search area */
+.search-area {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.search-area input {
+  width: 70%;
+  max-width: 450px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.search-area button {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2f2f2f;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.search-area button:hover {
+  background-color: #111;
+}
+
+/* Filters */
+.filters {
+  padding: 35px 40px;
+  text-align: center;
+  background-color: white;
+}
+
+.filters h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.filter-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.filter-controls select {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  min-width: 180px;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Sections */
+.recipes-section,
+.favorites-section,
+.grocery-section {
+  padding: 45px 40px;
+}
+
+.recipes-section h2,
+.favorites-section h2,
+.grocery-section h2 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+/* Recipe grid */
+.recipe-grid,
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+/* Recipe card */
+.recipe-card {
+  background-color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.16);
+}
+
+.recipe-card img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  display: block;
+}
+
+.recipe-info {
+  padding: 20px;
+}
+
+.recipe-info h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #ff7043;
+}
+
+.recipe-info p {
+  margin-bottom: 8px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+/* Ingredients */
+.ingredients-box {
+  background-color: #fff3eb;
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 12px;
+}
+
+.ingredients-box h4 {
+  margin-bottom: 8px;
+  color: #2f2f2f;
+}
+
+.ingredients-box ul {
+  padding-left: 20px;
+}
+
+.ingredients-box li {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+/* Buttons inside cards */
+.card-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.card-buttons button {
+  flex: 1;
+  padding: 11px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.add-ingredients-btn,
+.view-recipe-btn {
+  background-color: #ff7043;
+  color: white;
+}
+
+.add-ingredients-btn:hover,
+.view-recipe-btn:hover {
+  background-color: #e85f35;
+}
+
+.favorite-btn {
+  background-color: #ffe0d3;
+  color: #2f2f2f;
+}
+
+.favorite-btn:hover {
+  background-color: #ffc4ad;
+}
+
+.remove-favorite-btn {
+  background-color: #2f2f2f;
+  color: white;
+}
+
+.remove-favorite-btn:hover {
+  background-color: #111;
+}
+
+/* Empty message */
+.empty-message {
+  text-align: center;
+  font-size: 18px;
+  padding: 20px;
+}
+
+/* Grocery list */
+.grocery-section {
+  background-color: white;
+  max-width: 800px;
+  width: 90%;
+  margin: 0 auto 40px auto;
+  border-radius: 16px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+#groceryList {
+  list-style-position: inside;
+  margin-bottom: 20px;
+}
+
+#groceryList li {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.remove-ingredient-btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ff7043;
+  color: white;
+  cursor: pointer;
+}
+
+.remove-ingredient-btn:hover {
+  background-color: #e85f35;
+}
+
+#clearGroceryBtn {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2f2f2f;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#clearGroceryBtn:hover {
+  background-color: #111;
+}
+
+/* Footer */
+.site-footer {
+  background-color: #2f2f2f;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .site-header {
+    padding: 18px 20px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .nav-links {
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero h2 {
+    font-size: 34px;
+  }
+
+  .search-area {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-area input {
+    width: 100%;
+  }
+
+  .search-area button {
+    width: 100%;
+    max-width: 450px;
+  }
+
+  .recipes-section,
+  .favorites-section,
+  .grocery-section {
+    padding: 35px 20px;
+  }
+}
+
+/* Phone */
+@media (max-width: 480px) {
+  .logo {
+    font-size: 24px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero {
+    min-height: 320px;
+  }
+
+  .hero h2 {
+    font-size: 28px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .filter-controls select {
+    width: 100%;
+  }
+
+  .card-buttons {
+    flex-direction: column;
+  }
+
+  #groceryList li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
