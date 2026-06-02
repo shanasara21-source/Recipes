@@ -184,6 +184,7 @@ main {
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
 }
 
 .recipe-card:hover {
@@ -222,18 +223,21 @@ main {
   margin-top: 12px;
 }
 
-.ingredients-box h4 {
+.ingredients-box h4,
+.ingredients-box h3 {
   margin-bottom: 8px;
   color: #2f2f2f;
 }
 
-.ingredients-box ul {
+.ingredients-box ul,
+.ingredients-box ol {
   padding-left: 20px;
 }
 
 .ingredients-box li {
   margin-bottom: 5px;
   font-size: 14px;
+  line-height: 1.5;
 }
 
 /* Buttons inside cards */
@@ -241,6 +245,7 @@ main {
   display: flex;
   gap: 10px;
   margin-top: 15px;
+  flex-wrap: wrap;
 }
 
 .card-buttons button {
@@ -272,12 +277,14 @@ main {
   background-color: #ffc4ad;
 }
 
-.remove-favorite-btn {
+.remove-favorite-btn,
+.details-btn {
   background-color: #2f2f2f;
   color: white;
 }
 
-.remove-favorite-btn:hover {
+.remove-favorite-btn:hover,
+.details-btn:hover {
   background-color: #111;
 }
 
@@ -339,6 +346,53 @@ main {
   background-color: #111;
 }
 
+/* Details page */
+.details-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.details-card {
+  background-color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.details-card img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  display: block;
+}
+
+.details-card h2 {
+  color: #ff7043;
+  margin-bottom: 15px;
+  font-size: 34px;
+}
+
+.details-card ol {
+  padding-left: 20px;
+}
+
+.details-card ol li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #ff7043;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
 /* Footer */
 .site-footer {
   background-color: #2f2f2f;
@@ -388,6 +442,10 @@ main {
   .grocery-section {
     padding: 35px 20px;
   }
+
+  .details-card h2 {
+    font-size: 28px;
+  }
 }
 
 /* Phone */
@@ -429,5 +487,9 @@ main {
   #groceryList li {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .details-card h2 {
+    font-size: 24px;
   }
 }

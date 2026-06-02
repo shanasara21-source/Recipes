@@ -1,9 +1,10 @@
 // ===============================
 // FlavorFind Recipe App
-// API Version
+// API Search + Details Navigation
 // ===============================
 
-const API_URL = "https://dummyjson.com/recipes?limit=50";
+const BASE_URL = "https://dummyjson.com/recipes";
+const ALL_RECIPES_URL = `${BASE_URL}?limit=50`;
 
 // Grab HTML elements
 const searchInput = document.getElementById("searchInput");
@@ -21,12 +22,12 @@ let recipes = [];
 let favorites = [];
 let groceryItems = [];
 
-// Fetch recipes from API
-async function fetchRecipes() {
+// Fetch all recipes when page loads
+async function fetchAllRecipes() {
   try {
     recipeContainer.innerHTML = `<p class="empty-message">Loading recipes...</p>`;
 
-    const response = await fetch(API_URL);
+    const response = await fetch(ALL_RECIPES_URL);
 
     if (!response.ok) {
       throw new Error("Failed to fetch recipes.");
@@ -37,7 +38,7 @@ async function fetchRecipes() {
     recipes = data.recipes;
 
     populateFilters(recipes);
-    renderRecipes(recipes);
+    applyFiltersAndSort();
     renderFavorites();
     renderGroceryList();
   } catch (error) {
@@ -51,7 +52,42 @@ async function fetchRecipes() {
   }
 }
 
-// Build filter dropdowns from API data
+// Search recipes from API
+async function searchRecipesFromAPI() {
+  const searchText = searchInput.value.trim();
+
+  if (searchText === "") {
+    fetchAllRecipes();
+    return;
+  }
+
+  try {
+    recipeContainer.innerHTML = `<p class="empty-message">Searching recipes...</p>`;
+
+    const response = await fetch(`${BASE_URL}/search?q=${encodeURIComponent(searchText)}`);
+
+    if (!response.ok) {
+      throw new Error("Search request failed.");
+    }
+
+    const data = await response.json();
+
+    recipes = data.recipes;
+
+    populateFilters(recipes);
+    applyFiltersAndSort();
+  } catch (error) {
+    recipeContainer.innerHTML = `
+      <p class="empty-message">
+        Sorry, search results could not be loaded.
+      </p>
+    `;
+
+    console.error("Search API Error:", error);
+  }
+}
+
+// Build filter dropdowns from current API results
 function populateFilters(recipeList) {
   const cuisines = [...new Set(recipeList.map((recipe) => recipe.cuisine))].sort();
 
@@ -83,7 +119,7 @@ function populateFilters(recipeList) {
   });
 }
 
-// Render recipes
+// Render recipe cards
 function renderRecipes(recipeList) {
   recipeContainer.innerHTML = "";
 
@@ -95,6 +131,7 @@ function renderRecipes(recipeList) {
   recipeList.forEach((recipe) => {
     const recipeCard = document.createElement("article");
     recipeCard.className = "recipe-card";
+    recipeCard.dataset.id = recipe.id;
 
     const totalTime = recipe.prepTimeMinutes + recipe.cookTimeMinutes;
 
@@ -120,6 +157,10 @@ function renderRecipes(recipeList) {
         </div>
 
         <div class="card-buttons">
+          <button class="details-btn" data-id="${recipe.id}">
+            View Details
+          </button>
+
           <button class="add-ingredients-btn" data-id="${recipe.id}">
             Add Ingredients
           </button>
@@ -135,7 +176,6 @@ function renderRecipes(recipeList) {
   });
 }
 
-// Format meal type because API may return an array
 function formatMealType(mealType) {
   if (Array.isArray(mealType)) {
     return mealType.join(", ");
@@ -144,22 +184,18 @@ function formatMealType(mealType) {
   return mealType;
 }
 
-// Filter and sort recipes
-function updateRecipes() {
-  const searchText = searchInput.value.toLowerCase().trim();
+// Filter/sort current API search results
+function applyFiltersAndSort() {
   const selectedMealType = mealTypeFilter.value;
   const selectedCuisine = cuisineFilter.value;
   const selectedSort = sortFilter.value;
 
   let filteredRecipes = recipes.filter((recipe) => {
-    const recipeName = recipe.name.toLowerCase();
     const recipeCuisine = recipe.cuisine.toLowerCase();
 
     const recipeMealTypes = Array.isArray(recipe.mealType)
       ? recipe.mealType.map((type) => type.toLowerCase())
       : [recipe.mealType.toLowerCase()];
-
-    const matchesSearch = recipeName.includes(searchText);
 
     const matchesMealType =
       selectedMealType === "" || recipeMealTypes.includes(selectedMealType);
@@ -167,7 +203,7 @@ function updateRecipes() {
     const matchesCuisine =
       selectedCuisine === "" || recipeCuisine === selectedCuisine;
 
-    return matchesSearch && matchesMealType && matchesCuisine;
+    return matchesMealType && matchesCuisine;
   });
 
   if (selectedSort === "az") {
@@ -222,6 +258,7 @@ function renderFavorites() {
   favorites.forEach((recipe) => {
     const favoriteCard = document.createElement("article");
     favoriteCard.className = "recipe-card";
+    favoriteCard.dataset.id = recipe.id;
 
     const totalTime = recipe.prepTimeMinutes + recipe.cookTimeMinutes;
 
@@ -235,6 +272,10 @@ function renderFavorites() {
         <p><strong>Time:</strong> ${totalTime} minutes</p>
 
         <div class="card-buttons">
+          <button class="details-btn" data-id="${recipe.id}">
+            View Details
+          </button>
+
           <button class="add-ingredients-btn" data-id="${recipe.id}">
             Add Ingredients
           </button>
@@ -304,23 +345,43 @@ function clearGroceryList() {
 }
 
 // Event listeners
-searchBtn.addEventListener("click", updateRecipes);
-searchInput.addEventListener("input", updateRecipes);
-mealTypeFilter.addEventListener("change", updateRecipes);
-cuisineFilter.addEventListener("change", updateRecipes);
-sortFilter.addEventListener("change", updateRecipes);
+searchBtn.addEventListener("click", searchRecipesFromAPI);
+
+searchInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    searchRecipesFromAPI();
+  }
+});
+
+mealTypeFilter.addEventListener("change", applyFiltersAndSort);
+cuisineFilter.addEventListener("change", applyFiltersAndSort);
+sortFilter.addEventListener("change", applyFiltersAndSort);
 
 clearGroceryBtn.addEventListener("click", clearGroceryList);
 
+// Recipe card clicks
 recipeContainer.addEventListener("click", function (event) {
   const recipeId = Number(event.target.dataset.id);
 
   if (event.target.classList.contains("favorite-btn")) {
     addToFavorites(recipeId);
+    return;
   }
 
   if (event.target.classList.contains("add-ingredients-btn")) {
     addIngredientsToGroceryList(recipeId);
+    return;
+  }
+
+  if (event.target.classList.contains("details-btn")) {
+    window.location.href = `details.html?id=${recipeId}`;
+    return;
+  }
+
+  const card = event.target.closest(".recipe-card");
+
+  if (card) {
+    window.location.href = `details.html?id=${card.dataset.id}`;
   }
 });
 
@@ -329,10 +390,23 @@ favoritesContainer.addEventListener("click", function (event) {
 
   if (event.target.classList.contains("remove-favorite-btn")) {
     removeFromFavorites(recipeId);
+    return;
   }
 
   if (event.target.classList.contains("add-ingredients-btn")) {
     addIngredientsToGroceryList(recipeId);
+    return;
+  }
+
+  if (event.target.classList.contains("details-btn")) {
+    window.location.href = `details.html?id=${recipeId}`;
+    return;
+  }
+
+  const card = event.target.closest(".recipe-card");
+
+  if (card) {
+    window.location.href = `details.html?id=${card.dataset.id}`;
   }
 });
 
@@ -343,5 +417,5 @@ groceryList.addEventListener("click", function (event) {
   }
 });
 
-// Load app
-fetchRecipes();
+// Load page
+fetchAllRecipes();
